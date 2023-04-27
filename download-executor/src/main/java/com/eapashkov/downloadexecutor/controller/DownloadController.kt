@@ -1,6 +1,6 @@
 package com.eapashkov.downloadexecutor.controller
 
-import com.eapashkov.downloadexecutor.exceprion.FileFailureDownloadException
+import com.eapashkov.downloadexecutor.exception.FileFailureDownloadException
 import com.eapashkov.downloadexecutor.service.DownloadService
 import lombok.RequiredArgsConstructor
 import org.springframework.core.io.ByteArrayResource

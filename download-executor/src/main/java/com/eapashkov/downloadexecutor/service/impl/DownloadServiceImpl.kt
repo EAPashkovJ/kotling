@@ -50,7 +50,7 @@ class DownloadServiceImpl(
         }catch (e: FileUploadException){
              logger.error { "File is missing"}
         }
-        return null
+        return throw FileNotFoundException()
     }
 
     override fun download(fileId: String?): FileExchanger? {
