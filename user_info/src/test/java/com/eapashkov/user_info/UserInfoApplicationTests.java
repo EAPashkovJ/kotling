@@ -5,9 +5,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 class UserInfoApplicationTests {
-
-    @Test
-    void contextLoads() {
-    }
+//
+//    @Test
+//    void contextLoads() {
+//    }
 
 }

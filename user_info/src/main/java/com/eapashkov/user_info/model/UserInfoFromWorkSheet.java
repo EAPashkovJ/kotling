@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.util.UUID;
 
 @Entity
 @Data
@@ -14,16 +15,11 @@ import javax.persistence.Id;
 public class UserInfoFromWorkSheet {
 
     @Id
-    private Long id;
+    private UUID id;
 
     private String firstname;
     private String lastname;
     private String city;
     private int age;
-
-    // каждые 15 минут идет в сервис по скачиванию и проверяет не
-    // появлось ли ничего нового в бд, если появилось то скачивает и парсит на сущность, сохраняет в бд
-
-
 
 }
