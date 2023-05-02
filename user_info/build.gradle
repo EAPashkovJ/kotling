@@ -3,6 +3,8 @@ plugins {
     id 'org.springframework.boot' version '2.6.5'
     id 'io.spring.dependency-management' version '1.1.0'
     id 'java-library'
+    id 'org.jetbrains.kotlin.jvm' version '1.8.20'
+    id "org.jetbrains.kotlin.plugin.spring" version "1.8.20"
 }
 
 group = 'com.eapashkov'
@@ -28,16 +30,24 @@ dependencies {
     implementation 'org.springframework:spring-oxm:5.3.9'
     implementation 'org.testng:testng:7.1.0'
     compileOnly 'org.projectlombok:lombok'
+    implementation "io.github.microutils:kotlin-logging:2.0.3"
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'org.postgresql:postgresql'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     implementation group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.1'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    implementation("org.jetbrains.kotlin.plugin.spring:org.jetbrains.kotlin.plugin.spring.gradle.plugin:1.8.20")
+    runtimeOnly group: 'org.jetbrains.kotlin', name: 'kotlin-reflect', version: '1.8.20'
 
 
 }
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+kotlin {
+    jvmToolchain {
+        version = "17"
+    }
 }

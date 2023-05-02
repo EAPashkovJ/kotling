@@ -30,7 +30,7 @@ class DownloadController(private val downloadService: DownloadService) {
     fun download(@PathVariable id: String?): ResponseEntity<ByteArrayResource>? {
         val fileExchanger = downloadService.download(id) ?: throw FileFailureDownloadException("File not found!")
 
-        fileExchanger.fileType.let { MediaType.parseMediaType(it) }?.let {
+        fileExchanger.fileType.let { MediaType.parseMediaType(it) }.let {
 
             return ResponseEntity.ok()
                 .contentType(it)
@@ -38,6 +38,6 @@ class DownloadController(private val downloadService: DownloadService) {
                 .body(fileExchanger.metadata?.let { c -> ByteArrayResource(c) })
         }
 
-        return  throw FileFailureDownloadException("File not found!")
+        return throw FileFailureDownloadException("File not found!")
     }
 }
