@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;
 
-public interface UserInfoFromWorkSheetRepository extends JpaRepository<UserInfoFromWorkSheet, UUID> {
+public interface UserInfoFromWorkSheetRepository extends JpaRepository<UserInfoFromWorkSheet, Long> {
 
 }

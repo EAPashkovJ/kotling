@@ -35,7 +35,7 @@ class DownloadController(private val downloadService: DownloadService) {
             return ResponseEntity.ok()
                 .contentType(it)
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileExchanger.filename + "\"")
-                .body(fileExchanger.metadata?.let { it1 -> ByteArrayResource(it1) })
+                .body(fileExchanger.metadata?.let { c -> ByteArrayResource(c) })
         }
 
         return  throw FileFailureDownloadException("File not found!")

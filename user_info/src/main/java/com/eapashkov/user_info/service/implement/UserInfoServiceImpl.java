@@ -7,12 +7,11 @@ import com.eapashkov.user_info.service.UserInfoService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ByteArrayResource;
-import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.xml.bind.JAXBElement;
-import javax.xml.transform.stream.StreamSource;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
 import java.io.IOException;
 
 @Service
@@ -21,25 +20,26 @@ import java.io.IOException;
 @Transactional
 public class UserInfoServiceImpl implements UserInfoService {
 
-    // private final UserInfoFromWorkSheetRepository userInfoFromWorkSheetRepository;
+    private final UserInfoFromWorkSheetRepository userInfoFromWorkSheetRepository;
     private final DownloadServiceFeignClient downloadServiceFeignClient;
-    private final Jaxb2Marshaller jaxbMarshaller;
 
 
-    public UserInfoFromWorkSheet getusermodel(String id) throws IOException {
+    public void saveUserInfoFromXml(String id) throws JAXBException, IOException {
+
         ByteArrayResource xmlFromDownloadService = downloadServiceFeignClient.getXMLUserInfo(id);
-        UserInfoFromWorkSheet userInfoFromWorkSheet = xmlToEntityMapper(xmlFromDownloadService);
+        UserInfoFromWorkSheet userInfoFromWorkSheet = unmarshalToModel(xmlFromDownloadService);
+        userInfoFromWorkSheetRepository.save(userInfoFromWorkSheet);
 
+        log.info("User with ID: {} has been saved to DB", userInfoFromWorkSheet.getId());
 
-        return userInfoFromWorkSheet;
     }
 
-    private UserInfoFromWorkSheet xmlToEntityMapper(ByteArrayResource res) throws IOException {
+    private UserInfoFromWorkSheet unmarshalToModel(ByteArrayResource resource) throws IOException, JAXBException {
+        JAXBContext jaxbContext = JAXBContext.newInstance(UserInfoFromWorkSheet.class);
 
-        jaxbMarshaller.setClassesToBeBound(UserInfoFromWorkSheet.class);
-        JAXBElement<UserInfoFromWorkSheet> jaxbElement =
-                (JAXBElement<UserInfoFromWorkSheet>) jaxbMarshaller.unmarshal(new StreamSource(res.getInputStream()));
-        return jaxbElement.getValue();
+        return (UserInfoFromWorkSheet) jaxbContext.createUnmarshaller()
+                .unmarshal(resource.getInputStream());
+
     }
 
 
