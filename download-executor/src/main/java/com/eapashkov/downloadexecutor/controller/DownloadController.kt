@@ -28,9 +28,9 @@ class DownloadController(private val downloadService: DownloadService) {
 
     @GetMapping("/download/{id}")
     fun download(@PathVariable id: String?): ResponseEntity<ByteArrayResource>? {
-        val fileExchanger = downloadService.download(id) ?: throw FileFailureDownloadException("File not found!")
+        val fileExchanger = downloadService.download(id)
 
-        fileExchanger.fileType.let { MediaType.parseMediaType(it) }.let {
+        fileExchanger?.fileType?.let { MediaType.parseMediaType(it) }?.let {
 
             return ResponseEntity.ok()
                 .contentType(it)

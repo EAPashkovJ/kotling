@@ -9,7 +9,7 @@ plugins {
 
 group = 'com.eapashkov'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '17'
+sourceCompatibility = '18'
 
 configurations {
     compileOnly {
@@ -48,6 +48,6 @@ tasks.named('test') {
 }
 kotlin {
     jvmToolchain {
-        version = "17"
+        version = "18"
     }
 }

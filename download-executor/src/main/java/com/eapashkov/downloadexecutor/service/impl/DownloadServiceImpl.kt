@@ -63,7 +63,7 @@ class DownloadServiceImpl(
             val gridFSFile = gridFsTemplate.findOne(Query(Criteria.where("_id").`is`(ObjectId(fileId))))
             if (gridFSFile == null) {
                 logger.error { "File with fileID: $fileId not found" }
-                     return throw FileNotFoundException()
+                     return throw FileNotFoundException("File not found")
             }
 
             val fileExchanger = FileExchanger()
