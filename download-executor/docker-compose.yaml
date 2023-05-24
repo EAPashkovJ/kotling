@@ -15,3 +15,6 @@ services:
 volumes:
   mongodata:
     external: true
+networks:
+  mynetwork:
+    driver: bridge

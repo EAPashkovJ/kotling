@@ -1,30 +1,20 @@
-FROM ubuntu:22.04
+FROM openjdk:11-jdk-slim
 
-RUN apt-get update && apt-get install -y curl gnupg2
+ENV LANG=C.UTF-8
 
-RUN rm /bin/sh && ln -s /bin/bash /bin/sh
-RUN apt-get -qq -y install curl wget unzip zip
-
-RUN curl -s "https://get.sdkman.io" | bash
-RUN source "$HOME/.sdkman/bin/sdkman-init.sh"
-RUN apt-get install -y openjdk-11-jdk
-
-
-SHELL ["/bin/bash", "-c", "source $HOME/.bashrc"]
-
-RUN sdk install kotlin
+WORKDIR /app
 
 COPY build.gradle .
 COPY settings.gradle .
-
+COPY gradlew .
+COPY gradle ./gradle
 COPY src ./src
 
-RUN /opt/gradle-7.2/bin/gradle build
+RUN chmod +x ./gradlew
+RUN ./gradlew build
 
 COPY build/libs/download-executor-11.jar app.jar
 
-ENV PORT=8088
+EXPOSE 8080
 
-EXPOSE ${PORT}
-
-ENTRYPOINT ["java", "-jar", "app.jar"]
+CMD ["java", "-jar", "app.jar"]
